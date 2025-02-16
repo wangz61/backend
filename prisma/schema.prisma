@@ -14,7 +14,51 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
+  password  Password?
+  
+  roleId    Int?
+  role      Role?    @relation(fields: [roleId], references: [id])
+}
+
+model Password {
+  hash String
+  userId Int @unique
+
+  user User @relation(fields: [userId], references: [id])
+
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  name String @unique
+  users User[]
+  permissions Permission[]
+}
+
+model Permission {
+  id Int @id @default(autoincrement())
+  name String @unique
+  roles Role[]
+}
+
+model Production {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+
+  orders      Order[]
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+  createdAt   DateTime @default(now())
+  totalPrice  Float
+
+  productions Production[]
 }

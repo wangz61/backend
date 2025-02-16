@@ -1,23 +1,18 @@
-import express from "express";
+import { Router } from "express";
+import { createUser, deleteUser, listUsers, getUser, updateUser } from "../controllers/users";
+import { authorize } from "../middlewares/authorization";
+import PERMISSIONS from "../constants";
 
-const router = express.Router();
+const router = Router();
 
-router.get("/", (req, res) => {
-  const users = [
-    { id: 1, name: "John" },
-    { id: 2, name: "Jane" },
-  ];
+router.post("/", authorize([PERMISSIONS.USERS.CREATE]), createUser);
 
-  res.json(users);
+router.delete("/delete/:id", authorize([PERMISSIONS.USERS.DELETE]), deleteUser);
 
-});
+router.get("/", authorize([PERMISSIONS.USERS.VIEW]), listUsers);
 
-router.get("/:id", (req, res) => {
-  res.send(`user ${req.params.id}`);
-});
+router.get("/:id", authorize([PERMISSIONS.USERS.VIEW]), getUser);
 
-router.post("/", (req, res) => {
-  res.send("create user");
-});
+router.put("/update/:id", authorize([PERMISSIONS.USERS.EDIT]), updateUser);
 
 export default router;

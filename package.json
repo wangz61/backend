@@ -4,7 +4,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx nodemon src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "initialPermissions": "ts-node src/scripts/createPermissions.ts",
+    "createAdminRole": "ts-node src/scripts/createAdminRole.ts"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +24,10 @@
   },
   "dependencies": {
     "@prisma/client": "^6.3.1",
-    "express": "^4.21.2"
+    "@types/jsonwebtoken": "^9.0.8",
+    "bcryptjs": "^3.0.0",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
   }
 }
