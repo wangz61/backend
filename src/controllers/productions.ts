@@ -11,39 +11,31 @@ export const listProductions = async (req: any, res: Response) => {
     res.json(productions);
 }
 
-export const createProduction = async (req: Request, res: Response): Promise<void> => {
-    console.log('req.body', req.body.orders);
-
-    if (!Array.isArray(req.body.orders)) {
-        res.status(400).json({ error: "orders must be an array of IDs" });
-        return;
+export const getProductionById = async (req: Request, res: Response) => {
+    const production = await prisma.production.findUnique({
+        where: {
+            id: Number(req.params.id)
+        }
+    })
+    if(!production) {
+        res.status(404).json({ message: 'Production not found' })
+        return
     }
+    res.status(200).json(production)
+    return
+}
 
-    const existingOrders = await prisma.order.findMany({
-        where: { id: { in: req.body.orders.map(Number) } },
-        select: { id: true }
-    });
-
-    const validOrderIds = existingOrders.map(o => o.id);
-
-    if (validOrderIds.length === 0) {
-        res.status(400).json({ error: "No valid orders found" });
-        return;
-    }
-
+export const createProduction = async (req: Request, res: Response) => {
     const newProduction = await prisma.production.create({
         data: {
             title: req.body.title,
             description: req.body.description,
-            price: req.body.price,
-            orders: {
-                connect: validOrderIds.map(id => ({ id }))
-            }
+            price: req.body.price
         }
-    });
-
-    res.status(201).json(newProduction);
-};
+    })
+    res.status(201).json(newProduction)
+    return
+}
 
 export const updateProduction = async (req: Request, res: Response) => {
     const id = Number(req.params.id);
