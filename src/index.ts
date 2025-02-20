@@ -1,22 +1,24 @@
 import express from "express";
 import UsersRouter from "./routes/users";
 import RolesRouter from "./routes/roles";
-import ProductsRouter from "./routes/productions";
+import ProductionsRouter from "./routes/productions";
 import OrdersRouter from "./routes/orders";
 import bodyParser from "body-parser";
 import AuthRouter from "./routes/auth";
 import { authenticate } from "./middlewares/authentication";
+import cors from "cors";
 
 const PORT = 4000;
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.json());
 app.use(authenticate);
 
 app.use("/auth", AuthRouter);
 app.use("/users", UsersRouter);
 app.use("/roles", RolesRouter);
-app.use("/products", ProductsRouter);
+app.use("/productions", ProductionsRouter);
 app.use("/orders", OrdersRouter);
 
 app.get("/", (req, res) => {
