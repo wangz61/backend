@@ -33,7 +33,7 @@ export const createOrder = async (req: Request, res: Response) => {
         data: {
             name: req.body.name,
             email: req.body.email,
-            totalPrice: req.body.totalPrice,
+            totalPrice: parseFloat(req.body.totalPrice),
             createdAt: req.body.createdAt ? new Date(req.body.createdAt) : new Date(),
             productions: {
                 connect: req.body.productions.map((productionId: number) => ({ id: productionId }))
