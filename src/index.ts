@@ -15,15 +15,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(authenticate);
 
-app.use("/auth", AuthRouter);
+
 app.use("/users", UsersRouter);
 app.use("/roles", RolesRouter);
+app.use("/auth", AuthRouter);
 app.use("/productions", ProductionsRouter);
 app.use("/orders", OrdersRouter);
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
