@@ -45,7 +45,7 @@ export const getUser = async (req: Request, res: Response) => {
 }
 
 export const deleteUser = async (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+    const id = req.body.id;
     const user = await prisma.user.findUnique({
         where: { id: id },
     });
@@ -63,7 +63,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-    const id = Number(req.params.id);
+    const id = req.body.id;
     const user = await prisma.user.findUnique({
         where: { id: id },
     });
@@ -76,7 +76,9 @@ export const updateUser = async (req: Request, res: Response) => {
                 name: req.body.name,
                 email: req.body.email,
                 role: {
-                    connect: { id: req.body.roleId }
+                    connect: {
+                        id: Number(req.body.roleId)
+                    }
                 }
             }
         });
