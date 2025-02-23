@@ -22,6 +22,9 @@ app.use("/auth", AuthRouter);
 app.use("/productions", ProductionsRouter);
 app.use("/orders", OrdersRouter);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the service");
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
