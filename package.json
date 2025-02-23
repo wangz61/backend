@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx nodemon src/index.ts",
+    "start": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "populateProductions": "ts-node src/scripts/populateProductions.ts",
     "populateOrders": "ts-node src/scripts/populateOrders.ts",
